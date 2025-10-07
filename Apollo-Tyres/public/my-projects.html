@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - Apollo Tyres</title>
+    <link rel="stylesheet" href="/css/my-projects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-tire"></i>
+                <h2>Apollo Tyres</h2>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="/user-dashboard.html">
+                        <i class="fas fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/index.html">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Project</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/my-projects.html">
+                        <i class="fas fa-folder-open"></i>
+                        <span>My Projects</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/activity-log.html">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <span>Activity Log</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/public/components/help.pdf" target="_blank">
+                        <i class="fas fa-circle-question"></i>
+                        <span>Help</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <p class="user-name" id="userName">Loading...</p>
+                    <p class="user-role" id="userRole">User</p>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="back-btn" onclick="window.location.href='/user-dashboard.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </button>
+                <div class="page-title">
+                    <h1><i class="fas fa-folder-open"></i> My Projects</h1>
+                    <p class="page-subtitle">View and manage all your projects</p>
+                </div>
+            </div>
+            <div class="top-bar-actions">
+    <button class="refresh-btn" id="refreshBtn" title="Refresh Projects">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+    <div class="user-menu">
+        <span id="topBarUserName">User</span>
+        <div class="user-avatar-small">
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
+    <button class="hamburger-menu-btn" id="hamburgerMenuBtn" title="User Details">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+        </header>
+
+                </header>
+
+        <!-- User Details Panel -->
+        <div class="user-details-panel" id="userDetailsPanel">
+            <div class="user-details-header">
+                <h3><i class="fas fa-user-circle"></i> User Information</h3>
+                <button class="close-panel-btn" id="closePanelBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="user-details-body" id="userDetailsBody">
+                <div class="loader">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <p>Loading user details...</p>
+            </div>
+        </div>
+
+        <!-- Projects Container -->
+        <div class="projects-container">
+            <!-- Stats Summary -->
+            <section class="stats-summary">
+                <div class="stat-box stat-total">
+                    <div class="stat-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalProjectsCount">0</h3>
+                        <p>Total Projects</p>
+                    </div>
+                </div>
+                <div class="stat-box stat-completed">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completedCount">0</h3>
+                        <p>Completed</p>
+                    </div>
+                </div>
+                <div class="stat-box stat-progress">
+                    <div class="stat-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="inProgressCount">0</h3>
+                        <p>In Progress</p>
+                    </div>
+                </div>
+                <div class="stat-box stat-pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="notStartedCount">0</h3>
+                        <p>Not Started</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Replace analytics-dashboard section with this -->
+<section class="project-summary-cards">
+    <div class="summary-header">
+        <h2><i class="fas fa-clipboard-list"></i> Project Overview</h2>
+    </div>
+
+    <div class="summary-grid">
+        <!-- Active Projects Summary -->
+        <div class="summary-card">
+            <div class="summary-icon active">
+                <i class="fas fa-play-circle"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="activeProjectsCount">0</h3>
+                <p>Active Projects</p>
+                <span class="summary-subtitle">Not Started + In Progress</span>
+            </div>
+        </div>
+
+        <!-- This Week's Activity -->
+        <div class="summary-card">
+            <div class="summary-icon week">
+                <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="thisWeekActivity">0</h3>
+                <p>This Week</p>
+                <span class="summary-subtitle">Projects created this week</span>
+            </div>
+        </div>
+
+        <!-- This Month's Activity -->
+        <div class="summary-card">
+            <div class="summary-icon month">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="thisMonthActivity">0</h3>
+                <p>This Month</p>
+                <span class="summary-subtitle">Projects created this month</span>
+            </div>
+        </div>
+
+        <!-- Oldest Pending Project -->
+        <div class="summary-card">
+            <div class="summary-icon oldest">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="oldestPendingDays">-</h3>
+                <p>Oldest Pending</p>
+                <span class="summary-subtitle" id="oldestPendingName">No pending projects</span>
+            </div>
+        </div>
+
+        <!-- Most Used Protocol -->
+        <div class="summary-card">
+            <div class="summary-icon protocol">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="mostUsedProtocol">-</h3>
+                <p>Top Protocol</p>
+                <span class="summary-subtitle" id="mostUsedProtocolCount">0 projects</span>
+            </div>
+        </div>
+
+        <!-- Completion This Month -->
+        <div class="summary-card">
+            <div class="summary-icon completion">
+                <i class="fas fa-check-double"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="completedThisMonth">0</h3>
+                <p>Completed This Month</p>
+                <span class="summary-subtitle">Recent completions</span>
+            </div>
+        </div>
+
+        <!-- Average Project Duration -->
+        <div class="summary-card">
+            <div class="summary-icon duration">
+                <i class="fas fa-stopwatch"></i>
+            </div>
+            <div class="summary-info">
+                <h3 id="avgDuration">-</h3>
+                <p>Avg. Duration</p>
+                <span class="summary-subtitle">Days to complete</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+            <!-- Action Buttons -->
+            <section class="action-buttons">
+    <button class="btn btn-primary" onclick="window.location.href='/index.html'">
+        <i class="fas fa-plus"></i> New Project
+    </button>
+    <button class="btn btn-secondary" id="viewArchiveBtn">
+        <i class="fas fa-archive"></i> View Archived Projects
+    </button>
+    <button class="btn btn-secondary" id="viewActiveBtn" style="display: none;">
+        <i class="fas fa-folder-open"></i> View Active Projects
+    </button>
+    <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" id="gridViewBtn">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="view-btn" data-view="list" id="listViewBtn">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="btn btn-secondary" id="bulkDeleteBtn" style="display: none;">
+    <i class="fas fa-trash-alt"></i> Delete Selected (<span id="selectedCount">0</span>)
+</button>
+                </div>
+            </section>
+
+            <!-- Projects Display -->
+            <section class="projects-display">
+                <div class="projects-header">
+                    <h2>
+                        <span id="projectsCountText">All Projects</span>
+                        <span class="count-badge" id="displayCount">0</span>
+                    </h2>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-container" id="loadingContainer">
+                    <div class="loader">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <p>Loading your projects...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>No Projects Found</h3>
+                    <p>You haven't created any projects yet or no projects match your filters.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='/index.html'">
+                        <i class="fas fa-plus"></i> Create Your First Project
+                    </button>
+                </div>
+
+                <!-- Projects Grid View -->
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Dynamic project cards will be inserted here -->
+                </div>
+
+                <!-- Projects List View -->
+                <div class="projects-list-view" id="projectsListView" style="display: none;">
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Project Name</th>
+                                <th>Protocol</th>
+                                <th>Region</th>
+                                <th>Department</th>
+                                <th>Tyre Size</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody">
+                            <!-- Dynamic rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="paginationContainer" style="display: none;">
+                    <button class="pagination-btn" id="prevPageBtn" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <div class="pagination-info">
+                        <span>Page <strong id="currentPage">1</strong> of <strong id="totalPages">1</strong></span>
+                        <span class="separator">|</span>
+                        <span>Showing <strong id="showingRange">0</strong> of <strong id="totalItems">0</strong> projects</span>
+                    </div>
+                    <button class="pagination-btn" id="nextPageBtn" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Project Details</h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closeModalBtn">Close</button>
+                <button class="btn btn-primary" id="viewProjectBtn">View Full Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header modal-danger">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h2>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this project?</p>
+                <p class="warning-text"><strong id="deleteProjectName"></strong></p>
+                <p class="warning-subtext">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">
+                    <i class="fas fa-trash"></i> Delete Project
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Rename Project Modal -->
+    <div class="modal" id="renameModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fas fa-pen"></i> Rename Project</h2>
+                <button class="modal-close" id="closeRenameModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="newProjectName" style="display: block; margin-bottom: 8px; font-weight: 600;">New Project Name:</label>
+                <input type="text" id="newProjectName" class="rename-input" placeholder="Enter new project name">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelRenameBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmRenameBtn">
+                    <i class="fas fa-check"></i> Rename
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/my-projects.js"></script>
+</body>
+</html>

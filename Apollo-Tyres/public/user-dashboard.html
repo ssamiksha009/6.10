@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Apollo Tyres</title>
+    <link rel="stylesheet" href="/css/user-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-tire"></i>
+                <h2>Apollo Tyres</h2>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active">
+                    <a href="user-dashboard.html">
+                        <i class="fas fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Project</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="my-projects.html">
+                        <i class="fas fa-folder-open"></i>
+                        <span>My Projects</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="activity-log.html">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <span>Activity Log</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/public/components/help.pdf" target="_blank">
+                        <i class="fas fa-circle-question"></i>
+                        <span>Help</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <p class="user-name" id="userName">Loading...</p>
+                    <p class="user-role" id="userRole">User</p>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search projects, logs, activities..." id="searchInput">
+            </div>
+            <div class="top-bar-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </button>
+                <div class="user-menu">
+                    <span id="topBarUserName">Admin</span>
+                    <div class="user-avatar-small">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h1>Welcome back, <span id="welcomeUserName">User</span>! 👋</h1>
+                    <p>Here's what's happening with your projects today.</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-plus"></i> New Project
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='my-projects.html'">
+                        <i class="fas fa-folder"></i> View All Projects
+                    </button>
+                </div>
+            </section>
+
+            <!-- Statistics Cards -->
+            <section class="stats-grid">
+                <div class="stat-card stat-card-primary">
+                    <div class="stat-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Projects</p>
+                        <h3 class="stat-value" id="totalProjects">0</h3>
+                        <p class="stat-change positive"><i class="fas fa-arrow-up"></i> 12% from last month</p>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-success">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Completed</p>
+                        <h3 class="stat-value" id="completedProjects">0</h3>
+                        <p class="stat-change positive"><i class="fas fa-arrow-up"></i> 8% from last month</p>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">In Progress</p>
+                        <h3 class="stat-value" id="inProgressProjects">0</h3>
+                        <p class="stat-change neutral"><i class="fas fa-minus"></i> No change</p>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-card-info">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Not Started</p>
+                        <h3 class="stat-value" id="notStartedProjects">0</h3>
+                        <p class="stat-change negative"><i class="fas fa-arrow-down"></i> 5% from last month</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts and Recent Projects -->
+            <section class="dashboard-grid">
+                <!-- Protocol Distribution Chart -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-pie"></i> Projects by Protocol</h2>
+                        <div class="card-actions">
+                            <button class="btn-icon" title="Refresh">
+                                <i class="fas fa-rotate"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="protocolChart"></canvas>
+                        </div>
+                        <div class="chart-legend" id="protocolLegend">
+                            <!-- Dynamic legend will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Projects -->
+                <div class="card recent-projects-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-folder-open"></i> Recent Projects (Last 7)</h2>
+                        <div class="card-actions">
+                            <button class="btn-text" onclick="window.location.href='my-projects.html'">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="projects-list" id="recentProjectsList">
+                            <!-- Dynamic projects will be inserted here -->
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading projects...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Dashboard Sections -->
+            <section class="dashboard-grid-full">
+                <!-- Region Distribution -->
+                <div class="card region-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-globe"></i> Projects by Region</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="region-grid" id="regionGrid">
+                            <!-- Dynamic region data -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Distribution -->
+                <div class="card department-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-building"></i> Projects by Department</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="department-bars" id="departmentBars">
+                            <!-- Dynamic department data -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card activity-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-activity"></i> Recent Activity</h2>
+                        <button class="btn-text" onclick="window.location.href='activity-log.html'">
+                            View All <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline" id="activityTimeline">
+                            <!-- Dynamic activity items -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Statistics -->
+            <section class="user-stats-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-chart"></i> Your Statistics</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="user-stats-grid">
+                            <div class="user-stat-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <p class="stat-number" id="userTotalProjects">0</p>
+                                    <p class="stat-desc">Projects Created</p>
+                                </div>
+                            </div>
+                            <div class="user-stat-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <p class="stat-number" id="userLastLogin">-</p>
+                                    <p class="stat-desc">Last Login</p>
+                                </div>
+                            </div>
+                            <div class="user-stat-item">
+                                <i class="fas fa-calendar-plus"></i>
+                                <div>
+                                    <p class="stat-number" id="userJoinDate">-</p>
+                                    <p class="stat-desc">Member Since</p>
+                                </div>
+                            </div>
+                            <div class="user-stat-item">
+                                <i class="fas fa-award"></i>
+                                <div>
+                                    <p class="stat-number" id="userCompletionRate">0%</p>
+                                    <p class="stat-desc">Completion Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/user-dashboard.js"></script>
+</body>
+</html>
